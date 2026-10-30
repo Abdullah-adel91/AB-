@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#10233f">
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="المحاكاة">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png">
+<title>المحاكاة</title>
+<style>
+:root{--navy:#10233f;--blue:#2563eb;--pale:#eff5ff;--bg:#f4f6fa;--text:#172338;--muted:#718096;--line:#e3e8f0;--green:#12805c;--red:#c43d4b;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Tahoma,Arial,sans-serif}
+header{background:linear-gradient(120deg,#10233f,#1c4778);color:#fff;padding:20px max(18px,calc((100% - 1100px)/2));}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{font-size:25px;font-weight:800}.sub{font-size:12px;color:#c6d5e8;margin-top:5px}.userpill{font-size:12px;background:#ffffff1c;border:1px solid #ffffff35;border-radius:30px;padding:9px 12px}
+main{max-width:1100px;margin:22px auto;padding:0 16px 40px}.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:18px}.stat,.panel{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 4px 16px #152b4a08}.stat{padding:17px}.stat .label{font-size:13px;color:var(--muted)}.stat strong{display:block;font-size:30px;margin-top:8px;color:var(--navy)}.tabs{display:flex;gap:8px;overflow:auto;padding:4px 0 14px}.tab,button{border:0;border-radius:10px;padding:11px 15px;font:inherit;cursor:pointer}.tab{background:#e8edf5;color:#40516b;white-space:nowrap}.tab.active{background:var(--navy);color:white}.panel{padding:18px;margin-bottom:16px}.panel h2{font-size:18px;margin:0 0 15px}.muted{color:var(--muted);font-size:13px;line-height:1.7}.row{display:flex;gap:10px;align-items:center}.between{justify-content:space-between}.field{margin:12px 0}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:7px}input,textarea,select{font-size:16px;width:100%;border:1px solid #d8e0eb;border-radius:10px;padding:12px;background:#fff;font:inherit;color:var(--text);outline:none}input:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px #2563eb15}textarea{min-height:70px;resize:vertical}.primary{background:var(--blue);color:white}.dark{background:var(--navy);color:#fff}.soft{background:var(--pale);color:var(--blue)}.danger{background:#fff0f1;color:var(--red)}.success{background:#e9f7f1;color:var(--green)}.small{padding:8px 10px;font-size:12px}.question{border:1px solid var(--line);border-radius:13px;padding:14px;margin:12px 0;background:#fbfcfe}.question-title{font-weight:700;margin-bottom:12px}.answers{display:grid;grid-template-columns:1fr 1fr;gap:9px}.answer{border:1px solid #dce3ed;background:white;color:#4b5b70;padding:13px 8px;border-radius:11px;font-weight:700}.answer.yes.selected{background:#e7f6ef;border-color:#21a06c;color:#08734b}.answer.no.selected{background:#fff0f1;border-color:#d65a67;color:#b42c3c}.hidden{display:none!important}.item{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid var(--line);padding:12px 0}.item:last-child{border:0}.item-title{font-weight:700;font-size:14px}.item-meta{font-size:12px;color:var(--muted);margin-top:5px}.badge{font-size:11px;background:#edf2f8;color:#53647c;padding:5px 8px;border-radius:20px}.lookup-error{color:#b42332;background:#fff0f1;border:1px solid #f2c5ca;border-radius:9px;padding:9px 11px;margin:8px 0;font-size:12px;line-height:1.7}.lookup-ok{color:#08734b;background:#e9f7f1;border:1px solid #bce7d2;border-radius:9px;padding:9px 11px;margin:8px 0;font-size:12px;line-height:1.7}.notice{padding:11px 13px;background:#fff8e8;border:1px solid #f3dfae;border-radius:10px;color:#76591d;font-size:12px;line-height:1.7;margin:12px 0}.empty{text-align:center;color:var(--muted);padding:24px 8px;font-size:13px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.actions{display:flex;gap:7px;flex-wrap:wrap}.footer-note{text-align:center;color:#8793a5;font-size:11px;padding:10px}
+@media(min-width:760px){.stats{grid-template-columns:repeat(2,220px)}.layout{display:grid;grid-template-columns:1.25fr .75fr;gap:16px}.tabs{flex-wrap:wrap}.panel{padding:22px}}
+@media(max-width:480px){header{padding:17px}.brand{font-size:22px}.userpill{font-size:10px}.panel{padding:15px}.stat strong{font-size:26px}.grid2{grid-template-columns:1fr}}
+</style>
+<meta name="description" content="نظام تقييم ميداني سريع للموظفين">
+</head>
+<body>
+<header><div class="top"><div><div class="brand">المحاكاة</div></div></div></header>
+<main>
+ <div id="storageWarning" class="notice hidden" role="status"></div>
+ <section class="stats">
+  <div class="stat"><div class="label">تقييمات اليوم</div><strong id="todayCount">0</strong></div>
+  <div class="stat"><div class="label">إجمالي تقييماتك</div><strong id="totalCount">0</strong></div>
+ </section>
+ <nav class="tabs">
+  <button type="button" class="tab active" data-page="field">تقييم ميداني</button>
+  <button type="button" class="tab" data-page="questions">إدارة الأسئلة</button>
+  <button type="button" class="tab" data-page="employees">قاعدة الموظفين</button>
+  <button type="button" class="tab" data-page="records">جميع التقييمات</button>
+ </nav>
+
+ <section id="page-field" class="page">
+  <div class="layout">
+   <div class="panel">
+    <div class="row between"><h2>تقييم موظف جديد</h2><span class="badge" id="questionCount">0 أسئلة</span></div>
+    <div class="field"><label for="username">اليوزر المختصر</label><input id="username" placeholder="R117" autocomplete="off"></div>
+    <div class="grid2">
+     <div class="field"><label for="empName">اسم الموظف</label><input id="empName" placeholder="اسم الموظف"></div>
+     <div class="field"><label for="empId">رقم الهوية (اختياري)</label><input id="empId" placeholder="اختياري" inputmode="numeric"></div>
+    </div>
+    <div id="lookupHint" aria-live="polite"></div>
+    <div id="fieldQuestions"></div>
+    <button class="primary" style="width:100%;margin-top:12px" id="saveEval">حفظ التقييم</button>
+   </div>
+   <aside class="panel"><h2>آخر التقييمات</h2><div id="recentList"></div><button type="button" class="soft" style="width:100%;margin-top:10px" data-goto="records">عرض جميع التقييمات</button></aside>
+  </div>
+ </section>
+
+ <section id="page-questions" class="page hidden">
+  <div class="panel"><h2>إدارة الأسئلة</h2>
+   <div class="field"><label for="newQuestion">نص السؤال</label><textarea id="newQuestion" placeholder="اكتب السؤال هنا..."></textarea></div>
+   <button class="primary" id="addQuestion">+ إضافة سؤال</button>
+   <div id="questionList" style="margin-top:14px"></div>
+   <div class="actions"><button class="danger small" id="clearQuestions">مسح جميع الأسئلة</button></div>
+  </div>
+ </section>
+
+ <section id="page-employees" class="page hidden">
+  <div class="panel"><h2>قاعدة بيانات الموظفين</h2>
+   <div class="field"><label for="csvFile">رفع قاعدة الموظفين (CSV)</label><input id="csvFile" type="file" accept=".csv,text/csv"><div class="muted">ترتيب الأعمدة: اليوزر، الاسم، الهوية.</div></div>
+   <div class="field"><label for="manualUser">إضافة موظف يدوياً</label><input id="manualUser" placeholder="اليوزر المختصر"></div>
+   <div class="grid2"><input id="manualName" placeholder="اسم الموظف"><input id="manualId" placeholder="رقم الهوية (اختياري)"></div>
+   <button class="primary" id="addEmployee" style="margin-top:10px">حفظ الموظف</button>
+   <div id="employeeList" style="margin-top:14px"></div>
+  </div>
+ </section>
+
+ <section id="page-records" class="page hidden">
+  <div class="panel"><h2>جميع التقييمات</h2>
+   <div class="grid2"><input id="recordSearch" placeholder="بحث بالاسم أو اليوزر"><input id="recordDate" type="date" aria-label="تصفية بالتاريخ"></div>
+   <div id="recordList" style="margin-top:12px"></div>
+  </div>
+  <div class="panel hidden" id="editPanel"><h2>تعديل التقييم</h2><div id="editBody"></div><div class="actions"><button class="primary" id="saveEdit">حفظ التعديلات</button><button class="soft" id="cancelEdit">إلغاء</button></div></div>
+ </section>
+</main>
+<script>
+const KEY='mohakaa_demo_v1';
+const blank=()=>({questions:[],employees:[],records:[]});
+const $=id=>document.getElementById(id);
+let storageAvailable=true;
+function loadDB(){
+  try {
+    const raw=window.localStorage.getItem(KEY);
+    const value=raw?JSON.parse(raw):blank();
+    if(!value || typeof value!=='object') return blank();
+    return {questions:Array.isArray(value.questions)?value.questions:[],employees:Array.isArray(value.employees)?value.employees:[],records:Array.isArray(value.records)?value.records:[]};
+  } catch(e) { storageAvailable=false; return blank(); }
+}
+let db=loadDB(), editingId=null, answers={};
+function updateStorageWarning(){
+  const box=$('storageWarning');
+  if(!box) return;
+  if(storageAvailable){box.classList.add('hidden');box.textContent='';}
+  else {box.classList.remove('hidden');box.textContent='التخزين الدائم غير متاح في طريقة فتح الملف الحالية. استخدم رابط الموقع المنشور عبر HTTPS حتى تبقى بياناتك محفوظة بعد إغلاق المتصفح.';}
+}
+const save=()=>{try{window.localStorage.setItem(KEY,JSON.stringify(db));storageAvailable=true;}catch(e){storageAvailable=false;}renderAll();updateStorageWarning()};
+const norm=s=>(s||'').trim().toLowerCase().replace(/\s/g,'');
+const fullUser=s=>{let v=(s||'').trim().toUpperCase().replace(/\s/g,'');if(/^[RJ]\d+$/.test(v))return v[0]+'CC933-'+v.slice(1);return v};
+const stamp=d=>new Date(d).toLocaleString('ar-SA',{dateStyle:'short',timeStyle:'short'});
+const todayKey=()=>{let d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+function setPage(p){document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));$('page-'+p).classList.remove('hidden');document.querySelectorAll('.tab').forEach((x,i)=>x.classList.toggle('active',['field','questions','employees','records'][i]===p));if(p==='records')renderRecords();if(p==='questions')renderQuestions();if(p==='employees')renderEmployees()}
+window.setPage=setPage;
+document.querySelectorAll('[data-page]').forEach(button=>button.addEventListener('click',()=>setPage(button.dataset.page)));
+document.querySelectorAll('[data-goto]').forEach(button=>button.addEventListener('click',()=>setPage(button.dataset.goto)));
+function renderStats(){$('todayCount').textContent=db.records.filter(r=>r.dateKey===todayKey()).length;$('totalCount').textContent=db.records.length}
+function renderFieldQuestions(container='fieldQuestions',rec=null){let el=$(container);el.innerHTML='';let qs=rec?rec.questions:db.questions;$('questionCount').textContent=db.questions.length+' أسئلة';if(!qs.length){el.innerHTML='<div class="empty">لا توجد أسئلة.</div>';return}
+qs.forEach((q,i)=>{let val=rec?rec.answers[i]:answers[i];let box=document.createElement('div');box.className='question';box.innerHTML=`<div class="question-title">${i+1}. ${esc(q)}</div><div class="answers"><button class="answer yes ${val==='yes'?'selected':''}" data-v="yes">تم الالتزام</button><button class="answer no ${val==='no'?'selected':''}" data-v="no">لم يتم الالتزام</button></div>`;box.querySelectorAll('button').forEach(btn=>btn.onclick=()=>{if(rec){rec.answers[i]=btn.dataset.v;renderFieldQuestions(container,rec)}else{answers[i]=btn.dataset.v;renderFieldQuestions()}});el.appendChild(box)})}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+$('username').addEventListener('input',()=>{let u=norm($('username').value);let e=db.employees.find(x=>norm(x.user)===u||norm(x.fullUser)===u||norm(x.fullUser)===norm(fullUser(u)));$('lookupHint').className='';if(e){$('empName').value=e.name;$('empId').value=e.id||'';$('lookupHint').className='lookup-ok';$('lookupHint').textContent='✓ تم العثور على الموظف، وتم تعبئة بياناته.'}else if(u){$('empName').value='';$('empId').value='';$('lookupHint').className='lookup-error';$('lookupHint').textContent='اليوزر غير موجود في قاعدة بيانات الموظفين. أدخل بيانات الموظف يدوياً.'}else{$('lookupHint').textContent=''}});
+$('saveEval').onclick=()=>{let user=$('username').value.trim(),name=$('empName').value.trim();if(!user||!name){alert('أدخل اليوزر واسم الموظف.');return}if(!db.questions.length){alert('أضف سؤالاً واحداً على الأقل أولاً.');return}let missing=db.questions.some((q,i)=>!answers[i]);if(missing){alert('أجب عن جميع الأسئلة قبل الحفظ.');return}let now=new Date();db.records.unshift({id:Date.now()+'_'+Math.random().toString(16).slice(2),user,fullUser:fullUser(user),name,empId:$('empId').value.trim(),questions:[...db.questions],answers:db.questions.map((q,i)=>answers[i]),createdAt:now.toISOString(),dateKey:todayKey(),updatedAt:null});answers={};$('username').value='';$('empName').value='';$('empId').value='';$('lookupHint').textContent='';$('lookupHint').className='';save();renderFieldQuestions();alert('تم حفظ التقييم. يمكنك إضافة الموظف التالي.');};
+$('addQuestion').onclick=()=>{let q=$('newQuestion').value.trim();if(!q)return alert('اكتب نص السؤال أولاً.');db.questions.push(q);$('newQuestion').value='';save();renderQuestions();renderFieldQuestions()};
+function renderQuestions(){$('questionList').innerHTML=db.questions.length?'':'<div class="empty">لا توجد أسئلة.</div>';db.questions.forEach((q,i)=>{let d=document.createElement('div');d.className='item';d.innerHTML=`<div class="item-title">${i+1}. ${esc(q)}</div><div class="actions"><button class="soft small" data-edit="${i}">تعديل</button><button class="danger small" data-del="${i}">حذف</button></div>`;$('questionList').appendChild(d)});$('questionList').querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>{let i=+b.dataset.edit,v=prompt('تعديل السؤال',db.questions[i]);if(v&&v.trim()){db.questions[i]=v.trim();save();renderQuestions();renderFieldQuestions()}});$('questionList').querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{let i=+b.dataset.del;if(confirm('حذف هذا السؤال من القائمة الحالية؟')){db.questions.splice(i,1);answers={};save();renderQuestions();renderFieldQuestions()}})}
+$('clearQuestions').onclick=()=>{if(confirm('هل تريد مسح جميع الأسئلة الحالية؟ لن تتأثر التقييمات السابقة.')){db.questions=[];answers={};save();renderQuestions();renderFieldQuestions()}};
+$('addEmployee').onclick=()=>{let user=$('manualUser').value.trim(),name=$('manualName').value.trim();if(!user||!name)return alert('أدخل اليوزر والاسم.');let old=db.employees.find(x=>norm(x.user)===norm(user));let e={user,name,id:$('manualId').value.trim(),fullUser:fullUser(user)};if(old)Object.assign(old,e);else db.employees.push(e);$('manualUser').value=$('manualName').value=$('manualId').value='';save();renderEmployees()};
+$('csvFile').onchange=async ev=>{let f=ev.target.files[0];if(!f)return;let t=await f.text();let lines=t.replace(/^\uFEFF/,'').split(/\r?\n/).filter(x=>x.trim());let rows=lines.map(l=>l.split(',').map(x=>x.trim().replace(/^"|"$/g,'')));let start=/user|يوزر|username|اليوزر/i.test(rows[0]?.join(' '))?1:0;let n=0;for(let r of rows.slice(start)){if(!r[0]||!r[1])continue;let e={user:r[0],name:r[1],id:r[2]||'',fullUser:fullUser(r[0])};let old=db.employees.find(x=>norm(x.user)===norm(e.user));if(old)Object.assign(old,e);else db.employees.push(e);n++}save();renderEmployees();alert('تم استيراد/تحديث '+n+' موظفاً.');ev.target.value=''};
+function renderEmployees(){$('employeeList').innerHTML=db.employees.length?'':'<div class="empty">لا يوجد موظفون في القاعدة.</div>';db.employees.slice(0,30).forEach(e=>{let d=document.createElement('div');d.className='item';d.innerHTML=`<div><div class="item-title">${esc(e.name)}</div><div class="item-meta">${esc(e.user)} · ${esc(e.id||'بدون هوية')}</div></div><span class="badge">${esc(e.fullUser)}</span>`;$('employeeList').appendChild(d)})}
+function renderRecords(){let q=norm($('recordSearch').value),date=$('recordDate').value;let list=db.records.filter(r=>(!q||norm(r.name).includes(q)||norm(r.user).includes(q))&&(!date||r.dateKey===date));$('recordList').innerHTML=list.length?'':'<div class="empty">لا توجد نتائج.</div>';list.forEach(r=>{let d=document.createElement('div');d.className='item';d.innerHTML=`<div><div class="item-title">${esc(r.name)}</div><div class="item-meta">${stamp(r.createdAt)} · ${esc(r.user)} · ${r.questions.length} أسئلة</div></div><button class="soft small" data-open="${r.id}">فتح / تعديل</button>`;$('recordList').appendChild(d)});$('recordList').querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>openEdit(b.dataset.open))}
+$('recordSearch').oninput=renderRecords;$('recordDate').onchange=renderRecords;
+function openEdit(id){editingId=id;let r=db.records.find(x=>x.id===id);$('editPanel').classList.remove('hidden');$('editBody').innerHTML=`<div class="field"><label>اليوزر</label><input id="edUser" value="${esc(r.user)}"></div><div class="field"><label>اسم الموظف</label><input id="edName" value="${esc(r.name)}"></div><div class="field"><label>رقم الهوية</label><input id="edId" value="${esc(r.empId)}"></div><div id="editQuestions"></div>`;renderFieldQuestions('editQuestions',r);$('editBody').scrollIntoView({behavior:'smooth',block:'start'})}
+$('saveEdit').onclick=()=>{let r=db.records.find(x=>x.id===editingId);if(!r)return;r.user=$('edUser').value.trim();r.fullUser=fullUser(r.user);r.name=$('edName').value.trim();r.empId=$('edId').value.trim();r.updatedAt=new Date().toISOString();save();$('editPanel').classList.add('hidden');editingId=null;renderRecords();alert('تم حفظ التعديلات دون إنشاء تقييم جديد.')};
+$('cancelEdit').onclick=()=>{$('editPanel').classList.add('hidden');editingId=null};
+function renderRecent(){$('recentList').innerHTML=db.records.length?'':'<div class="empty">لا توجد تقييمات بعد.</div>';db.records.slice(0,5).forEach(r=>{let d=document.createElement('div');d.className='item';d.innerHTML=`<div><div class="item-title">${esc(r.name)}</div><div class="item-meta">${stamp(r.createdAt)} · ${esc(r.user)}</div></div><span class="badge">${r.questions.length} أسئلة</span>`;$('recentList').appendChild(d)})}
+function renderAll(){renderStats();renderRecent();renderFieldQuestions();if(!$('page-questions').classList.contains('hidden'))renderQuestions();if(!$('page-employees').classList.contains('hidden'))renderEmployees();if(!$('page-records').classList.contains('hidden'))renderRecords()}
+renderAll();
+updateStorageWarning();
+if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) { navigator.serviceWorker.register('./sw.js').catch(()=>{}); }
+</script>
+</body></html>
